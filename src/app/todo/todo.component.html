@@ -1,0 +1,81 @@
+<div class="container bg-info" style="border-radius:50px">
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <h3 class="bg-primary p-3 text-center text-white">Welcome {{getPerson()}} {{ getName()}} TODO LIST</h3>
+
+            <div class="input-group mb-3">
+                <input #txtItem type="text" class="form-control"
+                    (keyup.enter)="addItem(txtItem.value);txtItem.value=''">
+                <button class="btn btn-warning" (click)="addItem(txtItem.value); txtItem.value=''">Add</button>
+            </div>
+            
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"
+                    [(ngModel)]="displayAll">
+                <label class="form-check-label" for="inlineCheckbox1">All</label>
+            </div>
+           
+
+
+            <table class="table table-bordered" *ngIf="getItems().length>0">
+                <thead>
+                    <tr >
+                        <th>#</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                        <th>Immediately</th>
+                        <th>Action situation</th>
+                        <th >Immediate situation</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of getItems(); let i=index;">
+                        <td>{{ i+1}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <!-- <div *ngIf="item.action">Active</div>
+                            <div *ngIf="!item.action">Disactive</div> -->
+                            <div [ngSwitch]="item.action">
+                                <div *ngSwitchCase="true">Done</div>
+                                <div *ngSwitchCase="false">Will Do</div>
+                            </div>
+                        </td>
+                        <td>
+                            <!-- <div *ngIf="item.action">Active</div>
+                            <div *ngIf="!item.action">Disactive</div> -->
+                            <div [ngSwitch]="item.immediate">
+                                <div *ngSwitchCase="true">Yes</div>
+                                <div *ngSwitchCase="false">No</div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="item.action">
+                           
+                        </td>
+                        <td> <input type="checkbox" [(ngModel)]="item.immediate"></td>
+                        <td> <a class="btn btn-danger" (click)="deleteItem" style="border-radius:105px">x</a></td>
+                    </tr>
+                    <!-- <tr>
+                        <td>2</td>
+                        <td>Spor</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Alışveriş</td>
+                        <td>No</td>
+                    </tr> -->
+                </tbody>
+            </table>
+
+            <!-- <ul> 
+                <li *ngFor="let item of items"> {{item}} </li>
+            </ul> -->
+
+            <div class="alert alert-danger" *ngIf="getItems().length==0">
+                There is no item to do in list!
+            </div>
+        </div>
+    </div>
+</div>
